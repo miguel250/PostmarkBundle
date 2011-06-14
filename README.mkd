@@ -1,0 +1,58 @@
+# PostmarkBundle
+Symfony2 bundle for [Postmark](http://postmarkapp.com) API
+## Using submodules
+
+        git submodule add https://github.com/miguel250/PostmarkBundle.git src/Postmarkapp/PostmarkBundle
+
+Add PostmarkBundle to your application kernel
+-----
+
+``` php
+<?php
+// app/AppKernel.php
+    public function registerBundles()
+    {
+       return array(
+          // ...
+          new Postmarkapp\PostmarkBundle\PostmarkappPostmarkBundle(),
+          // ...
+          );
+     }
+```
+ Add the Postmarkapp namespace to your autoloader
+-----
+
+``` php
+<?php
+   // app/autoload.php
+   $loader->registerNamespaces(array(
+    // ...
+    'Postmarkapp'      => __DIR__.'/../src',
+    // ...
+  ));
+```
+
+Yml configuration
+-----
+
+``` yml
+# app/config/config.yml
+#postmark bundle
+postmarkapp_postmark:
+  apikey:          #Postmark api key
+  from_address:    #Sender email
+  from_name:       #Sender name[optional]
+```
+Usage example:
+-----
+
+``` php
+<?php
+        $postmark = $this->get('postmarkapp_postmark');
+        $postmark->addTo('user@email.com', 'user name');
+        $postmark->subject('subject');
+        $postmark->messagePlain('email body');
+        $postmark->send();
+```
+note:
+This bundle is using  [postmark-php](https://github.com/Znarkus/postmark-php) class slightly modified to implemented namespaces
