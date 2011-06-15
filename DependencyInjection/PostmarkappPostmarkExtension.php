@@ -58,4 +58,19 @@ class PostmarkappPostmarkExtension extends Extension
             $loader->load($resource);
         }
     }
+
+	/**
+     * Returns the base path for the XSD files.
+     *
+     * @return string The XSD base path
+     */
+    public function getXsdValidationBasePath()
+    {
+        return __DIR__.'/../Resources/config/schema';
+    }
+
+    public function getNamespace()
+    {
+        return 'http://symfony.com/schema/dic/postmarkapp_postmark';
+    }
 }
