@@ -2,7 +2,8 @@
 Symfony2 bundle for [Postmark](http://postmarkapp.com) API
 ## Using submodules
 
-        git submodule add https://github.com/miguel250/PostmarkBundle.git src/Postmarkapp/PostmarkBundle
+        git submodule add https://github.com/miguel250/PostmarkBundle.git vendor/bundles/Postmarkapp/PostmarkBundle
+        git submodule add https://github.com/miguel250/postmark-php.git  vendor/Postmark
 
 Add PostmarkBundle to your application kernel
 -----
@@ -27,7 +28,8 @@ Add PostmarkBundle to your application kernel
    // app/autoload.php
    $loader->registerNamespaces(array(
     // ...
-    'Postmarkapp'      => __DIR__.'/../src',
+    'Postmark'      => __DIR__.'/../vendor',
+    'Postmarkapp'      => __DIR__.'/../vendor/bundles',
     // ...
   ));
 ```

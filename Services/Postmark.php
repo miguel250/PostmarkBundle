@@ -11,14 +11,14 @@
 
 namespace Postmarkapp\PostmarkBundle\Services;
 
-use Postmarkapp\PostmarkBundle\Postmark\Mail_Postmark;
+use Postmark\Postmark as PostmarkClass;
 
 /**
  * Service for postmark api
  *
  * @author Miguel Perez  <miguel@mlpz.com>
  */
-class Postmark extends Mail_Postmark
+class Postmark extends PostmarkClass
 {
 
     public function __construct($apikey, $from_address, $from_name)
