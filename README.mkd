@@ -45,6 +45,17 @@ postmarkapp_postmark:
   from_address:    #Sender email
   from_name:       #Sender name[optional]
 ```
+
+``` xml
+# app/config/config.xml
+
+# add namespace to <container> tag
+xmlns:postmark="http://symfony.com/schema/dic/postmarkapp_postmark"
+
+# add postmark config inside <container> tag
+<postmark:config apikey="xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" from-address="your@email.com" />
+```
+
 Usage example:
 -----
 
