@@ -63,7 +63,7 @@ Usage example:
 
 ``` php
 <?php
-        $postmark = $this->get('postmarkapp_postmark');
+        $postmark = $this->get('postmark');
         $postmark->addTo('user@email.com', 'user name');
         $postmark->subject('subject');
         $postmark->messagePlain('email body');

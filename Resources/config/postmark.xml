@@ -11,7 +11,7 @@
     </parameters>
 
     <services>
-        <service id="postmarkapp_postmark" class="%postmarkapp_postmark.service.class%">
+        <service id="postmark" class="%postmarkapp_postmark.service.class%">
             <argument>%postmarkapp_postmark.apikey%</argument>
             <argument>%postmarkapp_postmark.from_address%</argument>
             <argument>%postmarkapp_postmark.from_name%</argument>
