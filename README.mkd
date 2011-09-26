@@ -63,11 +63,19 @@ Usage example:
 
 ``` php
 <?php
-        $postmark = $this->get('postmark');
-        $postmark->addTo('user@email.com', 'user name');
-        $postmark->subject('subject');
-        $postmark->messagePlain('email body');
-        $postmark->send();
+        $message = $this->get('postmark')->compose();
+        $message->addTo('user@email.com', 'user name');
+        $message->subject('subject');
+        $message->messagePlain('email body');
+        $message->send();
+        
+        $secondMessage = $this->get('postmark')->compose();
+        $secondMessage->addTo('user@email.com', 'user name');
+        $secondMessage->subject('subject');
+        $secondMessage->messagePlain('email body');
+        $secondMessage->send();
 ```
+
+
 note:
 This bundle is using  [postmark-php](https://github.com/Znarkus/postmark-php) class slightly modified to implemented namespaces
