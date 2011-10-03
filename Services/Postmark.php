@@ -20,7 +20,9 @@ use Postmark\Postmark as PostmarkClass;
  */
 class Postmark extends PostmarkClass
 {
-    static $composer;
+    static $apikey;
+    static $from_address;
+    static $from_name;
 
     public function __construct($apikey, $from_address, $from_name)
     {
@@ -28,14 +30,13 @@ class Postmark extends PostmarkClass
         $this->from($from_address, $from_name);
         $this->messageHtml(null)->messagePlain(null);
 
-	    self::$composer = function() use ($apikey, $from_address, $from_name) {
-		    return new Postmark($apikey, $from_address, $from_address);
-	    };
+        static::$apikey = $apikey;
+        static::$from_address = $from_address;
+        static::$from_name = $from_name;
     }
 
-	public static function compose()
-	{
-		$composer = self::$composer;
-		return $composer();
-	}
+    public static function compose()
+    {
+        return new static(Postmark::$apikey, Postmark::$from_address, Postmark::$from_name);
+    }
 }
