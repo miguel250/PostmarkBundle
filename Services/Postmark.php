@@ -11,7 +11,7 @@
 
 namespace Postmarkapp\PostmarkBundle\Services;
 
-use Postmark\Postmark as PostmarkClass;
+use \Postmark\Postmark as PostmarkClass;
 
 /**
  * Service for postmark api
