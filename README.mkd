@@ -3,7 +3,18 @@ Symfony2 bundle for [Postmark](http://postmarkapp.com) API
 ## Using submodules
 
         git submodule add https://github.com/miguel250/PostmarkBundle.git vendor/bundles/Postmarkapp/PostmarkBundle
-        git submodule add https://github.com/miguel250/postmark-php.git  vendor/postmark
+        git submodule add https://github.com/miguel250/postmark-php.git  vendor/Postmark
+
+## Using deps file
+```
+[postmark]
+    git=git://github.com/miguel250/postmark-php.git
+    target=/Postmark
+
+[PostmarkBundle]
+    git=git://github.com/digitalpioneers/PostmarkBundle.git
+    target=/bundles/Postmarkapp/PostmarkBundle
+```
 
 Add PostmarkBundle to your application kernel
 -----
