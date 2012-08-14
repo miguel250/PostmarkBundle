@@ -1,7 +1,7 @@
 {
-    "name": "mlpz/mailchimp-bundle",
+    "name": "mlpz/postmark-bundle",
     "type": "symfony-bundle",
-    "description": "mailchimp bundle",
+    "description": "postmark bundle",
     "keywords": ["postmark","api", "mailer"],
     "homepage": "http://www.mlpz.mp",
     "license": "MIT",
