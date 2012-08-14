@@ -1,40 +1,35 @@
 <?php
 
-/*
- * This file is part of the Postmarkapp\PostmarkBundle
- *
- * (c) Miguel Perez <miguel@mlpz.com>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
-namespace Postmarkapp\PostmarkBundle\DependencyInjection;
+namespace MZ\PostmarkBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Dependency injection configuration
+ * This is the class that validates and merges configuration from your app/config files
  *
- * @author Miguel Perez  <miguel@mlpz.com>
+ * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
  */
 class Configuration implements ConfigurationInterface
 {
-
+    /**
+     * {@inheritDoc}
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('postmarkapp_postmark');
+        $rootNode = $treeBuilder->root('mz_postmark');
 
-        $rootNode
-                ->children()
-                ->scalarNode('apikey')->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('from_address')->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('from_name')->defaultNull()->end()
+       $rootNode->children()
+                ->scalarNode('api_key')
+                ->isRequired()
+                ->cannotBeEmpty()
+                ->end()
+                ->scalarNode('from_email')
+                ->isRequired()
+                ->cannotBeEmpty()
+                ->end()
                 ->end();
-
         return $treeBuilder;
     }
-
 }
