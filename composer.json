@@ -1,0 +1,23 @@
+{
+    "name": "mlpz/postmark-bundle",
+    "type": "symfony-bundle",
+    "description": "postmark bundle",
+    "keywords": ["postmark","api", "mailer"],
+    "homepage": "http://www.mlpz.mp",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Miguel Perez",
+            "email": "miguel@miguelpz.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.*",
+        "kriswallsmith/buzz":"dev-master"
+    },
+    "autoload": {
+        "psr-0": { "MZ\\PostmarkBundle": "" }
+    },
+    "target-dir": "MZ/PostmarkBundle"
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+     <parameters>
+        <parameter key="mz_postmark.api_key">null</parameter>
+        <parameter key="mz_postmark.from_email">null</parameter>
+        <parameter key="mz_postmark.from_name">null</parameter>
+        <parameter key="mz_postmark.postmark.message.class">MZ\PostmarkBundle\Postmark\Message</parameter>
+    </parameters>
+
+    <services>
+        <service id="postmark.message" class="%mz_postmark.postmark.message.class%">
+            <argument>%mz_postmark.api_key%</argument>
+            <argument>%mz_postmark.from_email%</argument>
+            <argument>%mz_postmark.from_name%</argument>
+        </service>
+    </services>
+
+</container>

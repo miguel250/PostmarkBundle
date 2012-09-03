@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<xsd:schema xmlns="http://symfony.com/schema/dic/postmarkapp_postmark"
+<xsd:schema xmlns="http://symfony.com/schema/dic/mz_postmark"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="http://symfony.com/schema/dic/postmarkapp_postmark"
+    targetNamespace="http://symfony.com/schema/dic/mz_postmark"
     elementFormDefault="qualified">
 
     <xsd:element name="config" type="config" />
 
     <xsd:complexType name="config">
-        <xsd:attribute name="apikey" type="xsd:string" />
-        <xsd:attribute name="from-address" type="xsd:string" />
-        <xsd:attribute name="from-name" type="xsd:string" />
+        <xsd:attribute name="api_key" type="xsd:string" />
+        <xsd:attribute name="from_email" type="xsd:string" />
     </xsd:complexType>
 
 </xsd:schema>
