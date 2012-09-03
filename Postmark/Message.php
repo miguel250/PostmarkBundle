@@ -92,13 +92,10 @@ class Message extends HTTPClient
      * @param string $from
      * @param string $fromName
      */
-    public function __construct($apiKey, $from, $fromName = null)
+    public function __construct($apiKey, $from)
     {
         parent::__construct($apiKey);
 
-        if (!empty($fromName)) {
-            $from = "{$fromName} <{$from}>";
-        }
         $this->from = $from;
     }
 
