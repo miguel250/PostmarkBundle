@@ -13,6 +13,11 @@ namespace MZ\PostmarkBundle\Postmark;
 
 use MZ\PostmarkBundle\Postmark\HTTPClient;
 
+/**
+ * Send emails using postmark api
+ *
+ * @author Miguel Perez <miguel@miguelpz.com>
+ */
 class Message extends HTTPClient
 {
     /**
@@ -31,7 +36,7 @@ class Message extends HTTPClient
 
     /**
      * cc emails
-     * 
+     *
      * @var array
      */
     private $cc = array();
@@ -87,7 +92,7 @@ class Message extends HTTPClient
 
     /**
      * Constructor
-     * 
+     *
      * @param string $apiKey
      * @param string $from
      * @param string $fromName
@@ -103,7 +108,7 @@ class Message extends HTTPClient
      * Add email and name to TO: field
      *
      * @param string $email
-     * @param string $name null
+     * @param string $name  null
      */
     public function addTo($email, $name = null)
     {
@@ -117,7 +122,7 @@ class Message extends HTTPClient
      * Add cc emails to CC: field
      *
      * @param string $email
-     * @param string $name null
+     * @param string $name  null
      */
     public function addCC($email, $name = null)
     {
@@ -145,7 +150,7 @@ class Message extends HTTPClient
      * Set ReplyTo email
      *
      * @param string $email
-     * @param string $name null
+     * @param string $name  null
      */
     public function setReplyTo($email, $name = null)
     {
