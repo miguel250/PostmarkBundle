@@ -11,14 +11,10 @@
 
 namespace MZ\PostmarkBundle\Postmark;
 
-use  Buzz\Browser,
-     Buzz\Client\Curl;
+use MZ\PostmarkBundle\Postmark\HTTPClient;
 
-class Main
+class Message extends HTTPClient
 {
-    private $httpHeaders;
-    private $URL;
-    private $apiKey;
     private $from;
     private $to = array();
     private $cc = array();
@@ -29,44 +25,47 @@ class Main
     private $replyTo;
     private $Message;
     private $textMessage;
-    
+
     public function __construct($apiKey, $from, $fromName = null)
     {
-        $this->apiKey = $apiKey;
-        $this->from = trim("{$fromName} {$from}");
-        $this->httpHeaders['Accept'] = 'application/json';
-        $this->httpHeaders['Content-Type'] = 'application/json';
-        $this->httpHeaders['X-Postmark-Server-Token'] =  $this->apiKey;
-    }
+        parent::__construct($apiKey);
 
-    public function setApiKey($key)
-    {
-        $this->apiKey = $key;
-    }
-
-    public function setHTTPHeader($name, $value)
-    {
-        $this->httpHeaders[$name] = $value;
+        if (!empty($fromName)) {
+            $from = "{$fromName} <{$from}>";
+        }
+        $this->from = $from;
     }
 
     public function addTo($email, $name = null)
     {
-        $this->to[] = trim("{$name} {$email}");
+        if (!empty($name)) {
+            $email = "{$name} <{$email}>";
+        }
+        $this->to[] = $email;
     }
 
     public function addCC($email, $name = null)
     {
-        $this->cc[] =  trim("{$name} {$email}");
+        if (!empty($name)) {
+            $email = "{$name} <{$email}>";
+        }
+        $this->cc[] = $email;
     }
 
     public function addBCC($email, $name = null)
     {
-         $this->bcc[] =  trim("{$name} {$email}");
+        if (!empty($name)) {
+            $email = "{$name} <{$email}>";
+        }
+        $this->bcc[] = $email;
     }
 
     public function setReplyTo($email, $name = null)
     {
-        $this->replyTo = trim("{$name} {$email}");
+        if (!empty($name)) {
+            $email = "{$name} <{$email}>";
+        }
+        $this->replyTo = $email;
     }
 
     public function setTag($name)
@@ -101,52 +100,52 @@ class Main
         $data = array();
         $this->URL = 'https://api.postmarkapp.com/email';
 
-        if(!empty($this->htmlMessage)) {
+        if (!empty($this->htmlMessage)) {
             $data['HtmlBody'] = $this->htmlMessage;
             unset($this->htmlMessage);
         }
 
-        if(!empty($this->textMessage)){
+        if (!empty($this->textMessage)) {
             $data['TextBody'] = $this->textMessage;
             unset($this->textMessage);
         }
 
-        if(!empty($this->from)){
+        if (!empty($this->from)) {
             $data['From'] = $this->from;
             unset($this->from);
         }
 
-        if(!empty($this->to)){
+        if (!empty($this->to)) {
             $data['To'] = implode(',', $this->to);
             unset($this->to);
         }
 
-        if(!empty($this->cc)){
+        if (!empty($this->cc)) {
             $data['Cc'] = implode(',', $this->cc);
             unset($this->cc);
         }
 
-        if(!empty($this->bcc)){
+        if (!empty($this->bcc)) {
             $data['Bcc'] = implode(',', $this->bcc);
             unset($this->bcc);
         }
 
-        if(!empty($this->subject)){
+        if (!empty($this->subject)) {
             $data['Subject'] = $this->subject;
             unset($this->subject);
         }
 
-        if(!empty($this->tag)){
+        if (!empty($this->tag)) {
             $data['Tag'] = $this->tag;
             unset($this->tag);
         }
 
-        if(!empty($this->replyTo)){
+        if (!empty($this->replyTo)) {
             $data['ReplyTo'] = $this->replyTo;
             unset($this->replyTo);
         }
 
-        if(!empty($this->headers)){
+        if (!empty($this->headers)) {
             $data['Headers'] = $this->headers;
             unset($this->headers);
         }
@@ -154,13 +153,5 @@ class Main
         $payload = json_encode($data);
 
         return $this->sendRequest($payload);
-    }
-
-    protected function sendRequest($data)
-    {
-        $curl = new Curl();
-        $browser = new Browser($curl);
-        $response = $browser->post($this->URL, $this->httpHeaders, $data);
-        return $response->getContent();
     }
 }
