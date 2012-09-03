@@ -15,17 +15,83 @@ use MZ\PostmarkBundle\Postmark\HTTPClient;
 
 class Message extends HTTPClient
 {
+    /**
+     * From email
+     *
+     * @var string
+     */
     private $from;
+
+    /**
+     * To emails
+     *
+     * @var array
+     */
     private $to = array();
+
+    /**
+     * cc emails
+     * 
+     * @var array
+     */
     private $cc = array();
+
+    /**
+     * bcc emails
+     *
+     * @var array
+     */
     private $bcc = array();
+
+    /**
+     * Mail headers
+     *
+     * @var array
+     */
     private $headers = array();
+
+    /**
+     * Message subject
+     *
+     * @var string
+     */
     private $subject;
+
+    /**
+     * Message tag
+     *
+     * @var string
+     */
     private $tag;
+
+    /**
+     * Reply to email
+     *
+     * @var string
+     */
     private $replyTo;
-    private $Message;
+
+    /**
+     * Message body html
+     *
+     * @var string
+     */
+    private $htmlMessage;
+
+    /**
+     * Message body text
+     *
+     * @var string
+     */
     private $textMessage;
 
+    /**
+     * Constructor
+     * 
+     * @param string $apiKey
+     * @param string $from
+     * @param string $fromName
+     */
     public function __construct($apiKey, $from, $fromName = null)
     {
         parent::__construct($apiKey);
@@ -36,6 +102,12 @@ class Message extends HTTPClient
         $this->from = $from;
     }
 
+    /**
+     * Add email and name to TO: field
+     *
+     * @param string $email
+     * @param string $name null
+     */
     public function addTo($email, $name = null)
     {
         if (!empty($name)) {
@@ -44,6 +116,12 @@ class Message extends HTTPClient
         $this->to[] = $email;
     }
 
+    /**
+     * Add cc emails to CC: field
+     *
+     * @param string $email
+     * @param string $name null
+     */
     public function addCC($email, $name = null)
     {
         if (!empty($name)) {
@@ -52,6 +130,12 @@ class Message extends HTTPClient
         $this->cc[] = $email;
     }
 
+    /**
+     * Add bcc emails to BCC: field
+     *
+     * @param string $email
+     * @param string $email null
+     */
     public function addBCC($email, $name = null)
     {
         if (!empty($name)) {
@@ -60,6 +144,12 @@ class Message extends HTTPClient
         $this->bcc[] = $email;
     }
 
+    /**
+     * Set ReplyTo email
+     *
+     * @param string $email
+     * @param string $name null
+     */
     public function setReplyTo($email, $name = null)
     {
         if (!empty($name)) {
@@ -68,25 +158,52 @@ class Message extends HTTPClient
         $this->replyTo = $email;
     }
 
+    /**
+     * Set email tag
+     *
+     * @param string $name
+     */
     public function setTag($name)
     {
         $this->tag = $name;
     }
+
+    /**
+     * Set message subject
+     *
+     * @param string $subject
+     */
     public function setSubject($subject)
     {
         $this->subject = $subject;
     }
 
-    public function setHtmlMessage($message)
+    /**
+     * HTML message body
+     *
+     * @param string $htmlMessage
+     */
+    public function setHtmlMessage($htmlMessage)
     {
-        $this->htmlMessage = $message;
+        $this->htmlMessage = $htmlMessage;
     }
 
-    public function setTextMessage($message)
+    /**
+     * Text message body
+     *
+     * @param string $textMessage
+     */
+    public function setTextMessage($textMessage)
     {
-        $this->textMessage = $message;
+        $this->textMessage = $textMessage;
     }
 
+    /**
+     * Set email headers
+     *
+     * @param string $name
+     * @param string $value
+     */
     public function setHeaders($name, $value)
     {
         $this->headers[] = array(
@@ -95,6 +212,11 @@ class Message extends HTTPClient
             );
     }
 
+    /**
+     * Make request to postmark api
+     *
+     * @return string
+     */
     public function Send()
     {
         $data = array();

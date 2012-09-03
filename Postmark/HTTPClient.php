@@ -16,10 +16,32 @@ use  Buzz\Browser,
 
 class HTTPClient
 {
+    /**
+     * cURL headers
+     *
+     * @var array
+     */
     protected $httpHeaders;
+
+    /**
+     * URL to api
+     *
+     * @var string
+     */
     protected $URL;
+
+    /**
+     * Postmark api key
+     *
+     * @var string
+     */
     protected $apiKey;
 
+    /**
+     * Constructor
+     *
+     * @param string $apiKey
+     */
     public function __construct($apiKey)
     {
         $this->apiKey = $apiKey;
@@ -28,16 +50,32 @@ class HTTPClient
         $this->httpHeaders['X-Postmark-Server-Token'] =  $this->apiKey;
     }
 
+    /**
+     * Set Postmark api key
+     *
+     * @param string $key
+     */
     public function setApiKey($key)
     {
         $this->apiKey = $key;
     }
 
+    /**
+     * Set cURL headers
+     *
+     * @param string $name
+     * @param string $value
+     */
     protected function setHTTPHeader($name, $value)
     {
         $this->httpHeaders[$name] = $value;
     }
 
+    /**
+     * Make request to postmark api
+     *
+     * @param mixed $data
+     */
     protected function sendRequest($data)
     {
         $curl = new Curl();
