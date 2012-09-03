@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace MZ\PostmarkBundle\PostMark;
+namespace MZ\PostmarkBundle\Postmark;
 
 use  Buzz\Browser,
      Buzz\Client\Curl;
