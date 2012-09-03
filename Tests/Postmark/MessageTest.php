@@ -20,13 +20,14 @@ use MZ\PostmarkBundle\Postmark\Message;
  */
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
-	/**
+    /**
      * Test send request
      *
      * @covers  MZ\PostmarkBundle\Postmark\Message::Send
      */
-	public function testSendMessage() {
-		$message = new Message('POSTMARK_API_TEST', 'test@test.com');
+    public function testSendMessage()
+    {
+        $message = new Message('POSTMARK_API_TEST', 'test@test.com');
         $message->addTo('test2@test.com', 'Test Test');
         $message->setSubject('subject');
         $message->setHTMLMessage('<b>email body</b>');
@@ -35,5 +36,5 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response['To'], 'Test Test <test2@test.com>');
         $this->assertEquals($response['ErrorCode'], 0);
         $this->assertEquals($response['Message'], 'Test job accepted');
-	}
+    }
 }
