@@ -236,7 +236,6 @@ class Message extends HTTPClient
 
         if (!empty($this->from)) {
             $data['From'] = $this->from;
-            unset($this->from);
         }
 
         if (!empty($this->to)) {

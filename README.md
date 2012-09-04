@@ -57,4 +57,10 @@ public function registerBundles()
   $message->addTo('test@gmail.com', 'Test Test');
   $message->setSubject('subject');
   $message->setHTMLMessage('<b>email body</b>');
+  $message->send()
+
+  $message->addTo('test2@gmail.com', 'Test2 Test');
+  $message->setSubject('subject2');
+  $message->setHTMLMessage('<b>email body</b>');
+  $message->send()
 ```
