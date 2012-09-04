@@ -1,5 +1,5 @@
 # PostmarkBundle
-Symfony2 bundle for [Postmark](http://postmarkapp.com) API
+Symfony2 bundle for [Postmark](http://postmarkapp.com) API [![Build Status](https://secure.travis-ci.org/miguel250/PostmarkBundle.png?branch=master)](http://travis-ci.org/miguel250/PostmarkBundle)
 ## Setup
 
 **Using Composer**
