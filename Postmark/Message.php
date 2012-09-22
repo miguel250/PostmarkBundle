@@ -201,17 +201,17 @@ class Message extends HTTPClient
     }
 
     /**
-     * Set email headers
+     * Set email header
      *
      * @param string $name
      * @param string $value
      */
-    public function setHeaders($name, $value)
+    public function setHeader($name, $value)
     {
         $this->headers[] = array(
             'Name'=> $name,
             'Value' => $value
-            );
+        );
     }
 
     /**
