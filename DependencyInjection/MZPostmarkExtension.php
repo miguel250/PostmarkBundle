@@ -48,16 +48,4 @@ class MZPostmarkExtension extends Extension
     {
         return 'http://symfony.com/schema/dic/mz_postmark';
     }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    protected function loadDefaults($container)
-    {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-
-        foreach ($this->resources as $resource) {
-            $loader->load($resource);
-        }
-    }
 }
