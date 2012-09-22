@@ -219,7 +219,7 @@ class Message extends HTTPClient
      *
      * @return string
      */
-    public function Send()
+    public function send()
     {
         $data = array();
         $this->URL = 'https://api.postmarkapp.com/email';
