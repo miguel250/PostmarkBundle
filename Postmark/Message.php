@@ -18,8 +18,13 @@ use MZ\PostmarkBundle\Postmark\HTTPClient;
  *
  * @author Miguel Perez <miguel@miguelpz.com>
  */
-class Message extends HTTPClient
+class Message
 {
+	/**
+	 * @var \MZ\PostmarkBundle\Postmark\HTTPClient
+	 */
+	private $client;
+
     /**
      * From email
      *
@@ -90,19 +95,32 @@ class Message extends HTTPClient
      */
     private $textMessage;
 
-    /**
-     * Constructor
-     *
-     * @param string $apiKey
-     * @param string $from
-     * @param string $fromName
-     */
-    public function __construct($apiKey, $from)
+	/**
+	 * Constructor
+	 *
+	 * @param HTTPClient $client
+	 * @param string $from_email
+	 * @param string $from_name
+	 */
+	public function __construct(HTTPClient $client, $from_email, $from_name = null)
     {
-        parent::__construct($apiKey);
-
-        $this->from = $from;
+		$this->client = $client;
+		$this->setFrom($from_email, $from_name);
     }
+
+	/**
+	 * Set from email and name
+	 *
+	 * @param string $email
+	 * @param string $name  null
+	 */
+	public function setFrom($email, $name = null)
+	{
+		if (!empty($name)) {
+			$email = "{$name} <{$email}>";
+		}
+		$this->from = $email;
+	}
 
     /**
      * Add email and name to TO: field
@@ -222,7 +240,6 @@ class Message extends HTTPClient
     public function send()
     {
         $data = array();
-        $this->URL = 'https://api.postmarkapp.com/email';
 
         if (!empty($this->htmlMessage)) {
             $data['HtmlBody'] = $this->htmlMessage;
@@ -275,6 +292,6 @@ class Message extends HTTPClient
 
         $payload = json_encode($data);
 
-        return $this->sendRequest($payload);
+        return $this->client->sendRequest('https://api.postmarkapp.com/email', $payload);
     }
 }
