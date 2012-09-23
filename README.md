@@ -23,6 +23,7 @@ $ php composer.phar update mlpz/postmark-bundle
     git submodule add https://github.com/kriswallsmith/Buzz.git  vendor/buzz
 
 **Add the MZ namespace to autoloader**
+You can skip this when using Composer
 
 ``` php
 <?php
@@ -47,6 +48,13 @@ public function registerBundles()
     );
 }
 ```
+
+**Enable Postmark in config.yml**
+```` yml
+mz_postmark:
+    api_key: API KEY
+    from_email: info@my-app.com
+    from_name: My App, Inc
 
 ## Usage
 
