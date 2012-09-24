@@ -28,14 +28,14 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendMessage()
     {
-		$client = new HTTPClient('POSTMARK_API_TEST');
+        $client = new HTTPClient('POSTMARK_API_TEST');
         $message = new Message($client, 'test@test.com', 'test name');
         $message->addTo('test2@test.com', 'Test Test');
         $message->setSubject('subject');
         $message->setHTMLMessage('<b>email body</b>');
         $response = json_decode($message->send(), true);
 
-		$this->assertEquals($response['To'], 'Test Test <test2@test.com>');
+        $this->assertEquals($response['To'], 'Test Test <test2@test.com>');
         $this->assertEquals($response['ErrorCode'], 0);
         $this->assertEquals($response['Message'], 'Test job accepted');
     }

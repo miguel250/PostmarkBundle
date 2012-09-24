@@ -21,18 +21,18 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('mz_postmark');
 
         $rootNode
-			->children()
-				->scalarNode('api_key')
-					->isRequired()
-                	->cannotBeEmpty()
+            ->children()
+                ->scalarNode('api_key')
+                    ->isRequired()
+                    ->cannotBeEmpty()
                 ->end()
-            	->scalarNode('from_email')
-                	->isRequired()
-                	->cannotBeEmpty()
+                ->scalarNode('from_email')
+                    ->isRequired()
+                    ->cannotBeEmpty()
                 ->end()
-				->scalarNode('from_name')
-					->defaultTrue()
-				->end()
+                ->scalarNode('from_name')
+                    ->defaultTrue()
+                ->end()
             ->end();
 
         return $treeBuilder;

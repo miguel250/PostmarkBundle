@@ -72,7 +72,7 @@ class HTTPClient
     /**
      * Make request to postmark api
      *
-	 * @param string URL to post to
+     * @param string URL to post to
      * @param mixed $data
      */
     public function sendRequest($url, $data)

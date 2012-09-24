@@ -20,10 +20,10 @@ use MZ\PostmarkBundle\Postmark\HTTPClient;
  */
 class Message
 {
-	/**
-	 * @var \MZ\PostmarkBundle\Postmark\HTTPClient
-	 */
-	private $client;
+    /**
+     * @var \MZ\PostmarkBundle\Postmark\HTTPClient
+     */
+    private $client;
 
     /**
      * From email
@@ -95,32 +95,32 @@ class Message
      */
     private $textMessage;
 
-	/**
-	 * Constructor
-	 *
-	 * @param HTTPClient $client
-	 * @param string $from_email
-	 * @param string $from_name
-	 */
-	public function __construct(HTTPClient $client, $from_email, $from_name = null)
+    /**
+     * Constructor
+     *
+     * @param HTTPClient $client
+     * @param string     $from_email
+     * @param string     $from_name
+     */
+    public function __construct(HTTPClient $client, $from_email, $from_name = null)
     {
-		$this->client = $client;
-		$this->setFrom($from_email, $from_name);
+        $this->client = $client;
+        $this->setFrom($from_email, $from_name);
     }
 
-	/**
-	 * Set from email and name
-	 *
-	 * @param string $email
-	 * @param string $name  null
-	 */
-	public function setFrom($email, $name = null)
-	{
-		if (!empty($name)) {
-			$email = "{$name} <{$email}>";
-		}
-		$this->from = $email;
-	}
+    /**
+     * Set from email and name
+     *
+     * @param string $email
+     * @param string $name  null
+     */
+    public function setFrom($email, $name = null)
+    {
+        if (!empty($name)) {
+            $email = "{$name} <{$email}>";
+        }
+        $this->from = $email;
+    }
 
     /**
      * Add email and name to TO: field
