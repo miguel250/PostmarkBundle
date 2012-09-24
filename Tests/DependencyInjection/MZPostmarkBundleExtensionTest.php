@@ -61,8 +61,11 @@ class MZPostmarkExtensionTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($parameterBag));
 
         $extension = new MZPostmarkExtension();
-        $configs = array(array('api_key' => 'foo'),
-                array('from_email' => 'foo'),);
+        $configs = array(
+            array('api_key' => 'foo'),
+            array('from_email' => 'foo'),
+            array('from_name' => 'foo')
+        );
         $extension->load($configs, $container);
     }
 }

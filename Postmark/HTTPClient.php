@@ -29,13 +29,6 @@ class HTTPClient
     protected $httpHeaders;
 
     /**
-     * URL to api
-     *
-     * @var string
-     */
-    protected $URL;
-
-    /**
      * Postmark api key
      *
      * @var string
@@ -71,7 +64,7 @@ class HTTPClient
      * @param string $name
      * @param string $value
      */
-    protected function setHTTPHeader($name, $value)
+    public function setHTTPHeader($name, $value)
     {
         $this->httpHeaders[$name] = $value;
     }
@@ -79,13 +72,14 @@ class HTTPClient
     /**
      * Make request to postmark api
      *
+     * @param string URL to post to
      * @param mixed $data
      */
-    protected function sendRequest($data)
+    public function sendRequest($url, $data)
     {
         $curl = new Curl();
         $browser = new Browser($curl);
-        $response = $browser->post($this->URL, $this->httpHeaders, $data);
+        $response = $browser->post($url, $this->httpHeaders, $data);
 
         return $response->getContent();
     }

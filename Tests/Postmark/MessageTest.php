@@ -12,6 +12,7 @@
 namespace MZ\PostmarkBundle\Tests\Postmark;
 
 use MZ\PostmarkBundle\Postmark\Message;
+use MZ\PostmarkBundle\Postmark\HTTPClient;
 
 /**
  * Test message
@@ -27,7 +28,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendMessage()
     {
-        $message = new Message('POSTMARK_API_TEST', 'test@test.com');
+        $client = new HTTPClient('POSTMARK_API_TEST');
+        $message = new Message($client, 'test@test.com', 'test name');
         $message->addTo('test2@test.com', 'Test Test');
         $message->setSubject('subject');
         $message->setHTMLMessage('<b>email body</b>');

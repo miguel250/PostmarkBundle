@@ -18,8 +18,13 @@ use MZ\PostmarkBundle\Postmark\HTTPClient;
  *
  * @author Miguel Perez <miguel@miguelpz.com>
  */
-class Message extends HTTPClient
+class Message
 {
+    /**
+     * @var \MZ\PostmarkBundle\Postmark\HTTPClient
+     */
+    private $client;
+
     /**
      * From email
      *
@@ -93,15 +98,28 @@ class Message extends HTTPClient
     /**
      * Constructor
      *
-     * @param string $apiKey
-     * @param string $from
-     * @param string $fromName
+     * @param HTTPClient $client
+     * @param string     $from_email
+     * @param string     $from_name
      */
-    public function __construct($apiKey, $from)
+    public function __construct(HTTPClient $client, $from_email, $from_name = null)
     {
-        parent::__construct($apiKey);
+        $this->client = $client;
+        $this->setFrom($from_email, $from_name);
+    }
 
-        $this->from = $from;
+    /**
+     * Set from email and name
+     *
+     * @param string $email
+     * @param string $name  null
+     */
+    public function setFrom($email, $name = null)
+    {
+        if (!empty($name)) {
+            $email = "{$name} <{$email}>";
+        }
+        $this->from = $email;
     }
 
     /**
@@ -201,17 +219,17 @@ class Message extends HTTPClient
     }
 
     /**
-     * Set email headers
+     * Set email header
      *
      * @param string $name
      * @param string $value
      */
-    public function setHeaders($name, $value)
+    public function setHeader($name, $value)
     {
         $this->headers[] = array(
             'Name'=> $name,
             'Value' => $value
-            );
+        );
     }
 
     /**
@@ -219,10 +237,9 @@ class Message extends HTTPClient
      *
      * @return string
      */
-    public function Send()
+    public function send()
     {
         $data = array();
-        $this->URL = 'https://api.postmarkapp.com/email';
 
         if (!empty($this->htmlMessage)) {
             $data['HtmlBody'] = $this->htmlMessage;
@@ -275,6 +292,6 @@ class Message extends HTTPClient
 
         $payload = json_encode($data);
 
-        return $this->sendRequest($payload);
+        return $this->client->sendRequest('https://api.postmarkapp.com/email', $payload);
     }
 }
