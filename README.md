@@ -50,11 +50,12 @@ public function registerBundles()
 ```
 
 **Enable Postmark in config.yml**
-```` yml
+``` yml
 mz_postmark:
     api_key: API KEY
     from_email: info@my-app.com
     from_name: My App, Inc
+```
 
 ## Usage
 
@@ -70,5 +71,6 @@ mz_postmark:
   $message->addTo('test2@gmail.com', 'Test2 Test');
   $message->setSubject('subject2');
   $message->setHTMLMessage('<b>email body</b>');
+  $message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__));
   $message->send()
 ```

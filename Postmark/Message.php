@@ -11,7 +11,8 @@
 
 namespace MZ\PostmarkBundle\Postmark;
 
-use MZ\PostmarkBundle\Postmark\HTTPClient;
+use MZ\PostmarkBundle\Postmark\HTTPClient,
+    Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Send emails using postmark api
@@ -73,6 +74,13 @@ class Message
      * @var string
      */
     private $tag;
+
+    /**
+     * Message attachments
+     *
+     * @var array
+     */
+    private $attachments = array();
 
     /**
      * Reply to email
@@ -189,6 +197,16 @@ class Message
     }
 
     /**
+     * Add attachment
+     *
+     * @param array $attachment
+     */
+    public function addAttachment($attachment)
+    {
+    	$this->attachments[] = $attachment;
+    }
+
+    /**
      * Set message subject
      *
      * @param string $subject
@@ -278,6 +296,21 @@ class Message
         if (!empty($this->tag)) {
             $data['Tag'] = $this->tag;
             unset($this->tag);
+        }
+
+        if (sizeof($this->attachments) > 0) {
+        	$data['attachments'] = array();
+
+        	foreach($this->attachments as $file) {
+        		$attachment = array(
+        			'Name' => $file->getFilename(),
+        			'Content' => base64_encode(file_get_contents($file->getRealPath())),
+        			'ContentType' => $file->getMimeType()
+        		);
+        		$data['attachments'][] = $attachment;
+        	}
+
+        	unset($this->attachments);
         }
 
         if (!empty($this->replyTo)) {

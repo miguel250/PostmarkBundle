@@ -13,6 +13,7 @@ namespace MZ\PostmarkBundle\Tests\Postmark;
 
 use MZ\PostmarkBundle\Postmark\Message;
 use MZ\PostmarkBundle\Postmark\HTTPClient;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Test message
@@ -33,6 +34,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->addTo('test2@test.com', 'Test Test');
         $message->setSubject('subject');
         $message->setHTMLMessage('<b>email body</b>');
+        $message->addAttachment(new File(__FILE__));
         $response = json_decode($message->send(), true);
 
         $this->assertEquals($response['To'], 'Test Test <test2@test.com>');
