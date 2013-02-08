@@ -298,7 +298,7 @@ class Message
             unset($this->tag);
         }
 
-        if (sizeof($this->attachments) > 0) {
+        if (!empty($this->attachments) && sizeof($this->attachments) > 0) {
         	$data['attachments'] = array();
 
         	foreach($this->attachments as $file) {
