@@ -55,6 +55,7 @@ mz_postmark:
     api_key: API KEY
     from_email: info@my-app.com
     from_name: My App, Inc
+	use_ssl: true
 ```
 
 ## Usage
