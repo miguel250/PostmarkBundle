@@ -102,7 +102,14 @@ class Message
      * @var string
      */
     private $textMessage;
-
+    
+    /**
+     * Indicates wheter service should SSL or not
+     * 
+     * @var boolean
+     */
+     private $useSsl;
+    
     /**
      * Constructor
      *
@@ -110,10 +117,11 @@ class Message
      * @param string     $from_email
      * @param string     $from_name
      */
-    public function __construct(HTTPClient $client, $from_email, $from_name = null)
+    public function __construct(HTTPClient $client, $from_email, $from_name = null, $use_ssl = true)
     {
         $this->client = $client;
         $this->setFrom($from_email, $from_name);
+        $this->setUseSsl($use_ssl);
     }
 
     /**
@@ -235,6 +243,16 @@ class Message
     {
         $this->textMessage = $textMessage;
     }
+    
+     /**
+     * Set Use ssl
+     *
+     * @param boolean $useSsl
+     */
+    public function setUseSsl($useSsl)
+    {
+        $this->useSsl = $useSsl;
+    }
 
     /**
      * Set email header
@@ -324,7 +342,8 @@ class Message
         }
 
         $payload = json_encode($data);
+        $requestUrl = ($this->useSsl) ? 'https://api.postmarkapp.com/email' : 'http://api.postmarkapp.com/email';
 
-        return $this->client->sendRequest('https://api.postmarkapp.com/email', $payload);
+        return $this->client->sendRequest($requestUrl, $payload);
     }
 }

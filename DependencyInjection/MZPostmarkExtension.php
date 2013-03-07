@@ -25,7 +25,7 @@ class MZPostmarkExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        foreach (array('api_key', 'from_email', 'from_name') as $attribute) {
+        foreach (array('api_key', 'from_email', 'from_name', 'use_ssl') as $attribute) {
             if (isset($config[$attribute])) {
                 $container->setParameter('mz_postmark.'.$attribute, $config[$attribute]);
             }
