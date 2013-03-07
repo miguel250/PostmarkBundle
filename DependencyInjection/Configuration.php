@@ -33,6 +33,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('from_name')
                     ->defaultTrue()
                 ->end()
+                ->scalarNode('use_ssl')
+                    ->defaultTrue()
+                    ->end()
             ->end();
 
         return $treeBuilder;
