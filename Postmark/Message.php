@@ -117,7 +117,7 @@ class Message
      * @param string     $from_email
      * @param string     $from_name
      */
-    public function __construct(HTTPClient $client, $from_email, $from_name = null, $use_ssl)
+    public function __construct(HTTPClient $client, $from_email, $from_name = null, $use_ssl = true)
     {
         $this->client = $client;
         $this->setFrom($from_email, $from_name);
