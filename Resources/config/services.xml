@@ -10,6 +10,7 @@
         <parameter key="mz_postmark.from_email" />
         <parameter key="mz_postmark.from_name" />
         <parameter key="mz_postmark.use_ssl" />
+        <parameter key="mz_postmark.timeout" />
         <parameter key="mz_postmark.postmark.client.class">MZ\PostmarkBundle\Postmark\HTTPClient</parameter>
         <parameter key="mz_postmark.postmark.message.class">MZ\PostmarkBundle\Postmark\Message</parameter>
     </parameters>
@@ -17,6 +18,7 @@
     <services>
         <service id="postmark.client" class="%mz_postmark.postmark.client.class%">
             <argument>%mz_postmark.api_key%</argument>
+            <argument>%mz_postmark.timeout%</argument>
         </service>
 
         <service id="postmark.message" class="%mz_postmark.postmark.message.class%">
