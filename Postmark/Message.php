@@ -102,14 +102,14 @@ class Message
      * @var string
      */
     private $textMessage;
-    
+
     /**
      * Indicates wheter service should SSL or not
-     * 
+     *
      * @var boolean
      */
      private $useSsl;
-    
+
     /**
      * Constructor
      *
@@ -207,11 +207,25 @@ class Message
     /**
      * Add attachment
      *
-     * @param array $attachment
+     * @param File $file
+     * @param string $filename  null
+     * @param string $mimeType  nill
      */
-    public function addAttachment($attachment)
+    public function addAttachment(File $file, $filename = null, $mimeType = null)
     {
-    	$this->attachments[] = $attachment;
+        if (empty($filename)) {
+            $filename = $file->getFilename();
+        }
+
+        if (empty($mimeType)) {
+            $mimeType = $file->getMimeType();
+        }
+
+    	$this->attachments[] = array(
+                    'Name' => $filename,
+                    'Content' => base64_encode(file_get_contents($file->getRealPath())),
+                    'ContentType' => $mimeType
+                );
     }
 
     /**
@@ -243,7 +257,7 @@ class Message
     {
         $this->textMessage = $textMessage;
     }
-    
+
      /**
      * Set Use ssl
      *
@@ -316,18 +330,8 @@ class Message
             unset($this->tag);
         }
 
-        if (!empty($this->attachments) && sizeof($this->attachments) > 0) {
-        	$data['attachments'] = array();
-
-        	foreach($this->attachments as $file) {
-        		$attachment = array(
-        			'Name' => $file->getFilename(),
-        			'Content' => base64_encode(file_get_contents($file->getRealPath())),
-        			'ContentType' => $file->getMimeType()
-        		);
-        		$data['attachments'][] = $attachment;
-        	}
-
+        if (!empty($this->attachments)) {
+        	$data['Attachments'] = $this->attachments;
         	unset($this->attachments);
         }
 
