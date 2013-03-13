@@ -42,10 +42,9 @@ class HTTPClient
      */
     public function __construct($apiKey)
     {
-        $this->apiKey = $apiKey;
-        $this->httpHeaders['Accept'] = 'application/json';
-        $this->httpHeaders['Content-Type'] = 'application/json';
-        $this->httpHeaders['X-Postmark-Server-Token'] =  $this->apiKey;
+        $this->setApiKey($apiKey);
+        $this->setHTTPHeader('Accept', 'application/json');
+        $this->setHTTPHeader('Content-Type', 'application/json');
     }
 
     /**
@@ -56,6 +55,7 @@ class HTTPClient
     public function setApiKey($key)
     {
         $this->apiKey = $key;
+        $this->setHTTPHeader('X-Postmark-Server-Token', $this->apiKey);
     }
 
     /**
