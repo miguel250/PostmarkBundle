@@ -35,7 +35,10 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('use_ssl')
                     ->defaultTrue()
-                    ->end()
+                ->end()
+                ->scalarNode('timeout')
+                    ->defaultValue(5)
+                ->end()
             ->end();
 
         return $treeBuilder;
