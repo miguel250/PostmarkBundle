@@ -55,7 +55,8 @@ mz_postmark:
     api_key: API KEY
     from_email: info@my-app.com
     from_name: My App, Inc
-	use_ssl: true
+    use_ssl: true
+    timeout: 5
 ```
 
 ## Usage
@@ -67,11 +68,12 @@ mz_postmark:
   $message->addTo('test@gmail.com', 'Test Test');
   $message->setSubject('subject');
   $message->setHTMLMessage('<b>email body</b>');
+  $message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__));
   $message->send()
 
   $message->addTo('test2@gmail.com', 'Test2 Test');
   $message->setSubject('subject2');
   $message->setHTMLMessage('<b>email body</b>');
-  $message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__));
+  $message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__), 'usethisfilename.php', 'text/plain');
   $message->send()
 ```

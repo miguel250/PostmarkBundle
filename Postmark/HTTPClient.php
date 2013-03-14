@@ -36,16 +36,24 @@ class HTTPClient
     protected $apiKey;
 
     /**
+     * Postmark timeout in seconds
+     *
+     * @var int
+     */
+    protected $timeout;
+
+    /**
      * Constructor
      *
      * @param string $apiKey
+     * @param int $timeout
      */
-    public function __construct($apiKey)
+    public function __construct($apiKey, $timeout = 5)
     {
-        $this->apiKey = $apiKey;
-        $this->httpHeaders['Accept'] = 'application/json';
-        $this->httpHeaders['Content-Type'] = 'application/json';
-        $this->httpHeaders['X-Postmark-Server-Token'] =  $this->apiKey;
+        $this->setApiKey($apiKey);
+        $this->setTimeout($timeout);
+        $this->setHTTPHeader('Accept', 'application/json');
+        $this->setHTTPHeader('Content-Type', 'application/json');
     }
 
     /**
@@ -56,6 +64,17 @@ class HTTPClient
     public function setApiKey($key)
     {
         $this->apiKey = $key;
+        $this->setHTTPHeader('X-Postmark-Server-Token', $this->apiKey);
+    }
+
+    /**
+     * Set Postmark timeout in seconds
+     *
+     * @param int $timeout
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
     }
 
     /**
@@ -78,6 +97,7 @@ class HTTPClient
     public function sendRequest($url, $data)
     {
         $curl = new Curl();
+        $curl->setTimeout($this->timeout);
         $browser = new Browser($curl);
         $response = $browser->post($url, $this->httpHeaders, $data);
 
