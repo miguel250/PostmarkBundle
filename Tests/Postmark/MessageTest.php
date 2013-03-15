@@ -37,9 +37,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->addAttachment(new File(__FILE__), 'attachment.php', 'text/plain'); // Attachment with custom filename and mimetype
         $response = json_decode($message->send(), true);
 
-        $this->assertEquals($response['To'], 'Test Test <test1@test.com>');
-        $this->assertEquals($response['ErrorCode'], 0);
-        $this->assertEquals($response['Message'], 'Test job accepted');
+        $this->assertEquals('Test Test <test1@test.com>', $response['To']);
+        $this->assertEquals(0, $response['ErrorCode']);
+        $this->assertEquals('Test job accepted', $response['Message']);
     }
 
     /**
@@ -49,28 +49,28 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendMultipleMessages()
     {
-    	$client = new HTTPClient('POSTMARK_API_TEST');
-    	$message = new Message($client, 'test@test.com', 'multiple test one');
-    	$message->addTo('test2@test.com', 'Test Test');
-    	$message->setSubject('subject');
-    	$message->setHTMLMessage('<b>email body</b>');
-    	$message->addAttachment(new File(__FILE__), 'attachment.php'); // Attachment with custom filename
-    	$response = json_decode($message->send(), true);
+        $client = new HTTPClient('POSTMARK_API_TEST');
+        $message = new Message($client, 'test@test.com', 'multiple test one');
+        $message->addTo('test2@test.com', 'Test Test');
+        $message->setSubject('subject');
+        $message->setHTMLMessage('<b>email body</b>');
+        $message->addAttachment(new File(__FILE__), 'attachment.php'); // Attachment with custom filename
+        $response = json_decode($message->send(), true);
 
-    	$this->assertEquals($response['To'], 'Test Test <test2@test.com>');
-    	$this->assertEquals($response['ErrorCode'], 0);
-    	$this->assertEquals($response['Message'], 'Test job accepted');
+        $this->assertEquals('Test Test <test2@test.com>', $response['To']);
+        $this->assertEquals(0, $response['ErrorCode']);
+        $this->assertEquals('Test job accepted', $response['Message']);
 
-    	// Send a second message
-    	$message->addTo('test3@test.com', 'Test Test');
-    	$message->setSubject('subject second e-mail');
-    	$message->setHTMLMessage('<b>second email body</b>');
+        // Send a second message
+        $message->addTo('test3@test.com', 'Test Test');
+        $message->setSubject('subject second e-mail');
+        $message->setHTMLMessage('<b>second email body</b>');
         $message->addAttachment(new File(__FILE__), 'attachment.php'); // Attachment without custom filename or mimetype
-    	$response = json_decode($message->send(), true);
+        $response = json_decode($message->send(), true);
 
-    	$this->assertEquals($response['To'], 'Test Test <test3@test.com>');
-    	$this->assertEquals($response['ErrorCode'], 0);
-    	$this->assertEquals($response['Message'], 'Test job accepted');
+        $this->assertEquals('Test Test <test3@test.com>', $response['To']);
+        $this->assertEquals(0, $response['ErrorCode']);
+        $this->assertEquals('Test job accepted', $response['Message']);
 
         // Send a third message, without attachment
         $message->addTo('test4@test.com', 'Test Test');
@@ -78,8 +78,51 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->setHTMLMessage('<b>second email body</b>');
         $response = json_decode($message->send(), true);
 
-        $this->assertEquals($response['To'], 'Test Test <test4@test.com>');
-        $this->assertEquals($response['ErrorCode'], 0);
-        $this->assertEquals($response['Message'], 'Test job accepted');
+        $this->assertEquals('Test Test <test4@test.com>', $response['To']);
+        $this->assertEquals(0, $response['ErrorCode']);
+        $this->assertEquals('Test job accepted', $response['Message']);
+    }
+
+    /**
+     * Test multiple messages via batch
+     *
+     * @covers  MZ\PostmarkBundle\Postmark\Message::Send
+     */
+    public function testSendMultipleMessagesViaBatch()
+    {
+        $client = new HTTPClient('POSTMARK_API_TEST');
+        $message = new Message($client, 'test@test.com', 'multiple test one');
+        $message->addTo('test2@test.com', 'Test Test');
+        $message->setSubject('subject');
+        $message->setHTMLMessage('<b>email body</b>');
+        $message->addAttachment(new File(__FILE__), 'attachment.php'); // Attachment with custom filename
+        $message->queue();
+
+        // Send a second message
+        $message->addTo('test3@test.com', 'Test Test');
+        $message->setSubject('subject second e-mail');
+        $message->setHTMLMessage('<b>second email body</b>');
+        $message->addAttachment(new File(__FILE__), 'attachment.php'); // Attachment without custom filename or mimetype
+        $message->queue();
+
+        // Send a third message, without attachment
+        $message->addTo('test4@test.com', 'Test Test');
+        $message->setSubject('subject second e-mail');
+        $message->setHTMLMessage('<b>second email body</b>');
+
+        // Send the queue
+        $response = json_decode($message->send(), true);
+
+        $this->assertEquals('Test Test <test2@test.com>', $response[0]['To']);
+        $this->assertEquals(0, $response[0]['ErrorCode']);
+        $this->assertEquals('Test job accepted', $response[0]['Message']);
+
+        $this->assertEquals('Test Test <test3@test.com>', $response[1]['To']);
+        $this->assertEquals(0, $response[1]['ErrorCode']);
+        $this->assertEquals('Test job accepted', $response[1]['Message']);
+
+        $this->assertEquals('Test Test <test4@test.com>', $response[2]['To']);
+        $this->assertEquals(0, $response[2]['ErrorCode']);
+        $this->assertEquals('Test job accepted', $response[2]['Message']);
     }
 }

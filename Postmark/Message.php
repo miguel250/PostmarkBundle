@@ -27,6 +27,13 @@ class Message
     private $client;
 
     /**
+     * Contains all the messages that are going to be send.
+     *
+     * @var array
+     */
+    private $queue = array();
+
+    /**
      * From email
      *
      * @var string
@@ -104,24 +111,16 @@ class Message
     private $textMessage;
 
     /**
-     * Indicates wheter service should SSL or not
-     *
-     * @var boolean
-     */
-     private $useSsl;
-
-    /**
      * Constructor
      *
      * @param HTTPClient $client
      * @param string     $from_email
      * @param string     $from_name
      */
-    public function __construct(HTTPClient $client, $from_email, $from_name = null, $use_ssl = true)
+    public function __construct(HTTPClient $client, $from_email, $from_name = null)
     {
         $this->client = $client;
         $this->setFrom($from_email, $from_name);
-        $this->setUseSsl($use_ssl);
     }
 
     /**
@@ -135,6 +134,7 @@ class Message
         if (!empty($name)) {
             $email = "{$name} <{$email}>";
         }
+
         $this->from = $email;
     }
 
@@ -163,6 +163,7 @@ class Message
         if (!empty($name)) {
             $email = "{$name} <{$email}>";
         }
+
         $this->cc[] = $email;
     }
 
@@ -177,6 +178,7 @@ class Message
         if (!empty($name)) {
             $email = "{$name} <{$email}>";
         }
+
         $this->bcc[] = $email;
     }
 
@@ -191,6 +193,7 @@ class Message
         if (!empty($name)) {
             $email = "{$name} <{$email}>";
         }
+
         $this->replyTo = $email;
     }
 
@@ -222,10 +225,10 @@ class Message
         }
 
     	$this->attachments[] = array(
-                    'Name' => $filename,
-                    'Content' => base64_encode(file_get_contents($file->getRealPath())),
-                    'ContentType' => $mimeType
-                );
+            'Name' => $filename,
+            'Content' => base64_encode(file_get_contents($file->getRealPath())),
+            'ContentType' => $mimeType
+        );
     }
 
     /**
@@ -258,16 +261,6 @@ class Message
         $this->textMessage = $textMessage;
     }
 
-     /**
-     * Set Use ssl
-     *
-     * @param boolean $useSsl
-     */
-    public function setUseSsl($useSsl)
-    {
-        $this->useSsl = $useSsl;
-    }
-
     /**
      * Set email header
      *
@@ -283,11 +276,9 @@ class Message
     }
 
     /**
-     * Make request to postmark api
-     *
-     * @return string
+     * Queue the message to send it later via the batch method
      */
-    public function send()
+    public function queue()
     {
         $data = array();
 
@@ -331,8 +322,8 @@ class Message
         }
 
         if (!empty($this->attachments)) {
-        	$data['Attachments'] = $this->attachments;
-        	unset($this->attachments);
+            $data['Attachments'] = $this->attachments;
+            unset($this->attachments);
         }
 
         if (!empty($this->replyTo)) {
@@ -345,9 +336,34 @@ class Message
             unset($this->headers);
         }
 
-        $payload = json_encode($data);
-        $requestUrl = ($this->useSsl) ? 'https://api.postmarkapp.com/email' : 'http://api.postmarkapp.com/email';
+        if (!empty($data)) {
+            $this->queue[] = $data;
 
-        return $this->client->sendRequest($requestUrl, $payload);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Make request to postmark api
+     *
+     * @return string
+     */
+    public function send()
+    {
+        $this->queue();
+
+        if (count($this->queue) === 1) {
+            $payload = json_encode($this->queue[0]);
+            $path = 'email';
+        } else {
+            $payload = json_encode($this->queue);
+            $path = 'email/batch';
+        }
+
+        $this->queue = array();
+
+        return $this->client->sendRequest($path, $payload);
     }
 }

@@ -43,15 +43,24 @@ class HTTPClient
     protected $timeout;
 
     /**
+     * Indicates wheter service should SSL or not
+     *
+     * @var boolean
+     */
+    protected $ssl;
+
+    /**
      * Constructor
      *
-     * @param string $apiKey
+     * @param $apiKey
      * @param int $timeout
+     * @param bool $ssl
      */
-    public function __construct($apiKey, $timeout = 5)
+    public function __construct($apiKey, $timeout = 5, $ssl = true)
     {
         $this->setApiKey($apiKey);
         $this->setTimeout($timeout);
+        $this->setSsl($ssl);
         $this->setHTTPHeader('Accept', 'application/json');
         $this->setHTTPHeader('Content-Type', 'application/json');
     }
@@ -78,6 +87,16 @@ class HTTPClient
     }
 
     /**
+     * Let Postmark use SSL
+     *
+     * @param bool $bool
+     */
+    public function setSsl($bool)
+    {
+        $this->ssl = $bool;
+    }
+
+    /**
      * Set cURL headers
      *
      * @param string $name
@@ -91,13 +110,20 @@ class HTTPClient
     /**
      * Make request to postmark api
      *
-     * @param string URL to post to
+     * @param string Path to post to
      * @param mixed $data
      */
-    public function sendRequest($url, $data)
+    public function sendRequest($path, $data)
     {
+        $url = sprintf(
+            "%s://api.postmarkapp.com/%s",
+            $this->ssl ? 'https' : 'http',
+            $path
+        );
+
         $curl = new Curl();
         $curl->setTimeout($this->timeout);
+
         $browser = new Browser($curl);
         $response = $browser->post($url, $this->httpHeaders, $data);
 

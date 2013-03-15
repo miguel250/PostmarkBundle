@@ -19,13 +19,13 @@
         <service id="postmark.client" class="%mz_postmark.postmark.client.class%">
             <argument>%mz_postmark.api_key%</argument>
             <argument>%mz_postmark.timeout%</argument>
+            <argument>%mz_postmark.use_ssl%</argument>
         </service>
 
         <service id="postmark.message" class="%mz_postmark.postmark.message.class%">
             <argument type="service" id="postmark.client" />
             <argument>%mz_postmark.from_email%</argument>
             <argument>%mz_postmark.from_name%</argument>
-            <argument>%mz_postmark.use_ssl%</argument>
         </service>
     </services>
 
