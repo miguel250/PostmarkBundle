@@ -64,16 +64,33 @@ mz_postmark:
 **Message Service**
 ``` php
 <?php
-  $message  = $this->get('postmark.message');
-  $message->addTo('test@gmail.com', 'Test Test');
-  $message->setSubject('subject');
-  $message->setHTMLMessage('<b>email body</b>');
-  $message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__));
-  $message->send()
+$message  = $this->get('postmark.message');
+$message->addTo('test@gmail.com', 'Test Test');
+$message->setSubject('subject');
+$message->setHTMLMessage('<b>email body</b>');
+$message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__));
+$message->send();
 
-  $message->addTo('test2@gmail.com', 'Test2 Test');
-  $message->setSubject('subject2');
-  $message->setHTMLMessage('<b>email body</b>');
-  $message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__), 'usethisfilename.php', 'text/plain');
-  $message->send()
+$message->addTo('test2@gmail.com', 'Test2 Test');
+$message->setSubject('subject2');
+$message->setHTMLMessage('<b>email body</b>');
+$message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__), 'usethisfilename.php', 'text/plain');
+$message->send();
+?>
+```
+
+**Sending in batch**
+``` php
+<?php
+$message  = $this->get('postmark.message');
+$message->addTo('test@gmail.com', 'Test Test');
+$message->setSubject('subject');
+$message->setHTMLMessage('<b>email body</b>');
+$message->queue(); // Queue the message instead of sending it directly
+
+$message->addTo('test2@gmail.com', 'Test2 Test');
+$message->setSubject('subject2');
+$message->setHTMLMessage('<b>email body</b>');
+$message->send(); // Send both messages
+?>
 ```
