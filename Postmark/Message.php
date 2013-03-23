@@ -128,6 +128,7 @@ class Message
      *
      * @param string $email
      * @param string $name  null
+     * @return Message
      */
     public function setFrom($email, $name = null)
     {
@@ -136,6 +137,8 @@ class Message
         }
 
         $this->from = $email;
+
+        return $this;
     }
 
     /**
@@ -143,13 +146,17 @@ class Message
      *
      * @param string $email
      * @param string $name  null
+     * @return Message
      */
     public function addTo($email, $name = null)
     {
         if (!empty($name)) {
             $email = "{$name} <{$email}>";
         }
+
         $this->to[] = $email;
+
+        return $this;
     }
 
     /**
@@ -157,6 +164,7 @@ class Message
      *
      * @param string $email
      * @param string $name  null
+     * @return Message
      */
     public function addCC($email, $name = null)
     {
@@ -165,6 +173,8 @@ class Message
         }
 
         $this->cc[] = $email;
+
+        return $this;
     }
 
     /**
@@ -172,6 +182,7 @@ class Message
      *
      * @param string $email
      * @param string $email null
+     * @return Message
      */
     public function addBCC($email, $name = null)
     {
@@ -180,6 +191,8 @@ class Message
         }
 
         $this->bcc[] = $email;
+
+        return $this;
     }
 
     /**
@@ -187,6 +200,7 @@ class Message
      *
      * @param string $email
      * @param string $name  null
+     * @return Message
      */
     public function setReplyTo($email, $name = null)
     {
@@ -195,16 +209,21 @@ class Message
         }
 
         $this->replyTo = $email;
+
+        return $this;
     }
 
     /**
      * Set email tag
      *
      * @param string $name
+     * @return Message
      */
     public function setTag($name)
     {
         $this->tag = $name;
+
+        return $this;
     }
 
     /**
@@ -212,7 +231,8 @@ class Message
      *
      * @param File $file
      * @param string $filename  null
-     * @param string $mimeType  nill
+     * @param string $mimeType  null
+     * @return Message
      */
     public function addAttachment(File $file, $filename = null, $mimeType = null)
     {
@@ -225,40 +245,51 @@ class Message
         }
 
     	$this->attachments[] = array(
-            'Name' => $filename,
-            'Content' => base64_encode(file_get_contents($file->getRealPath())),
+            'Name'        => $filename,
+            'Content'     => base64_encode(file_get_contents($file->getRealPath())),
             'ContentType' => $mimeType
         );
+
+        return $this;
     }
 
     /**
      * Set message subject
      *
      * @param string $subject
+     * @return Message
      */
     public function setSubject($subject)
     {
         $this->subject = $subject;
+
+        return $this;
     }
 
     /**
      * HTML message body
      *
      * @param string $htmlMessage
+     * @return Message
      */
     public function setHtmlMessage($htmlMessage)
     {
         $this->htmlMessage = $htmlMessage;
+
+        return $this;
     }
 
     /**
      * Text message body
      *
      * @param string $textMessage
+     * @return Message
      */
     public function setTextMessage($textMessage)
     {
         $this->textMessage = $textMessage;
+
+        return $this;
     }
 
     /**
@@ -266,6 +297,7 @@ class Message
      *
      * @param string $name
      * @param string $value
+     * @return Message
      */
     public function setHeader($name, $value)
     {
@@ -273,10 +305,14 @@ class Message
             'Name'=> $name,
             'Value' => $value
         );
+
+        return $this;
     }
 
     /**
      * Queue the message to send it later via the batch method
+     *
+     * @return Message
      */
     public function queue()
     {
@@ -338,11 +374,9 @@ class Message
 
         if (!empty($data)) {
             $this->queue[] = $data;
-
-            return true;
         }
 
-        return false;
+        return $this;
     }
 
     /**
