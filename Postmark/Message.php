@@ -24,91 +24,91 @@ class Message
     /**
      * @var \MZ\PostmarkBundle\Postmark\HTTPClient
      */
-    private $client;
+    protected $client;
 
     /**
      * Contains all the messages that are going to be send.
      *
      * @var array
      */
-    private $queue = array();
+    protected $queue = array();
 
     /**
      * From email
      *
      * @var string
      */
-    private $from;
+    protected $from;
 
     /**
      * To emails
      *
      * @var array
      */
-    private $to = array();
+    protected $to = array();
 
     /**
      * cc emails
      *
      * @var array
      */
-    private $cc = array();
+    protected $cc = array();
 
     /**
      * bcc emails
      *
      * @var array
      */
-    private $bcc = array();
+    protected $bcc = array();
 
     /**
      * Mail headers
      *
      * @var array
      */
-    private $headers = array();
+    protected $headers = array();
 
     /**
      * Message subject
      *
      * @var string
      */
-    private $subject;
+    protected $subject;
 
     /**
      * Message tag
      *
      * @var string
      */
-    private $tag;
+    protected $tag;
 
     /**
      * Message attachments
      *
      * @var array
      */
-    private $attachments = array();
+    protected $attachments = array();
 
     /**
      * Reply to email
      *
      * @var string
      */
-    private $replyTo;
+    protected $replyTo;
 
     /**
      * Message body html
      *
      * @var string
      */
-    private $htmlMessage;
+    protected $htmlMessage;
 
     /**
      * Message body text
      *
      * @var string
      */
-    private $textMessage;
+    protected $textMessage;
 
     /**
      * Constructor
