@@ -125,4 +125,30 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $response[2]['ErrorCode']);
         $this->assertEquals('Test job accepted', $response[2]['Message']);
     }
+
+    /**
+     * Test batch greater than 500
+     *
+     * @covers  MZ\PostmarkBundle\Postmark\Message::Send
+     */
+    public function testIssue20()
+    {
+        $batchNumber = 501;
+        $count = 0;
+
+        $client = new HTTPClient('POSTMARK_API_TEST');
+        $message = new Message($client, 'test@test.com', 'test batch greater than 500');
+
+        while ($batchNumber >= $count) {
+            $message->addTo('test3@test.com', 'Test Test');
+            $message->setSubject('subject second e-mail');
+            $message->setHTMLMessage('<b>second email body</b>');
+            $message->queue();
+            $count++;
+        }
+        
+        $response = json_decode($message->send(), true);
+        $this->assertEquals(410, $response['ErrorCode']);
+        $this->assertEquals('You may only send up to 500 messages in a single batched request.', $response['Message']);
+    }
 }
