@@ -146,9 +146,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
             $message->queue();
             $count++;
         }
-        
-        $response = json_decode($message->send(), true);
-        $this->assertEquals(410, $response['ErrorCode']);
-        $this->assertEquals('You may only send up to 500 messages in a single batched request.', $response['Message']);
+
+        $responses = $message->send();
+        $this->assertEquals(2, count($responses));
     }
 }
