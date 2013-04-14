@@ -397,14 +397,15 @@ class Message
                 $payload = json_encode($this->queue[0]);
                 $path = 'email';
             } else {
-                $payload = json_encode($this->queue);
+                $payload = json_encode($chunk);
                 $path = 'email/batch';
             }
 
             $responses[] = $this->client->sendRequest($path, $payload);
         }
 
+        $responses = (count($this->queue) === 1) ? $responses[0] : $responses;
         $this->queue = array();
-        return (count($responses) == 1) ? $responses[0] : $responses;
+        return $responses;
     }
 }

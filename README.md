@@ -69,13 +69,13 @@ $message->addTo('test@gmail.com', 'Test Test');
 $message->setSubject('subject');
 $message->setHTMLMessage('<b>email body</b>');
 $message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__));
-$message->send();
+$response = $message->send();
 
 $message->addTo('test2@gmail.com', 'Test2 Test');
 $message->setSubject('subject2');
 $message->setHTMLMessage('<b>email body</b>');
 $message->addAttachment(new Symfony\Component\HttpFoundation\File\File(__FILE__), 'usethisfilename.php', 'text/plain');
-$message->send();
+$response = $message->send();
 ?>
 ```
 
@@ -91,6 +91,6 @@ $message->queue(); // Queue the message instead of sending it directly
 $message->addTo('test2@gmail.com', 'Test2 Test');
 $message->setSubject('subject2');
 $message->setHTMLMessage('<b>email body</b>');
-$message->send(); // Send both messages
+$responses = $message->send(); // Send both messages, note that you'll get an array of json responses instead of just the json response
 ?>
 ```
