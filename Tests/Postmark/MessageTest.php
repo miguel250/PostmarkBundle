@@ -111,7 +111,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->setHTMLMessage('<b>second email body</b>');
 
         // Send the queue
-        $response = json_decode($message->send(), true);
+        $responses = $message->send();
+        $this->assertEquals(1, count($responses));
+        $response = json_decode($responses[0], true);
 
         $this->assertEquals('Test Test <test2@test.com>', $response[0]['To']);
         $this->assertEquals(0, $response[0]['ErrorCode']);
@@ -146,9 +148,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
             $message->queue();
             $count++;
         }
-        
-        $response = json_decode($message->send(), true);
-        $this->assertEquals(410, $response['ErrorCode']);
-        $this->assertEquals('You may only send up to 500 messages in a single batched request.', $response['Message']);
+
+        $responses = $message->send();
+        $this->assertEquals(2, count($responses));
     }
 }

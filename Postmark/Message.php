@@ -382,22 +382,30 @@ class Message
     /**
      * Make request to postmark api
      *
-     * @return string
+     * @return string|array
      */
     public function send()
     {
         $this->queue();
 
-        if (count($this->queue) === 1) {
-            $payload = json_encode($this->queue[0]);
-            $path = 'email';
-        } else {
-            $payload = json_encode($this->queue);
-            $path = 'email/batch';
+        $responses = array();
+        $chunks = array_chunk($this->queue, 500);
+
+        foreach ($chunks as $chunk)
+        {
+            if (count($this->queue) === 1) {
+                $payload = json_encode($this->queue[0]);
+                $path = 'email';
+            } else {
+                $payload = json_encode($chunk);
+                $path = 'email/batch';
+            }
+
+            $responses[] = $this->client->sendRequest($path, $payload);
         }
 
+        $responses = (count($this->queue) === 1) ? $responses[0] : $responses;
         $this->queue = array();
-
-        return $this->client->sendRequest($path, $payload);
+        return $responses;
     }
 }
