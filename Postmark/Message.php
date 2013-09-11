@@ -133,7 +133,10 @@ class Message
     public function setFrom($email, $name = null)
     {
         if (!empty($name)) {
-            $email = "{$name} <{$email}>";
+            $email = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
+                $email
+            );
         }
 
         $this->from = $email;
@@ -151,7 +154,10 @@ class Message
     public function addTo($email, $name = null)
     {
         if (!empty($name)) {
-            $email = "{$name} <{$email}>";
+            $email = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
+                $email
+            );
         }
 
         $this->to[] = $email;
@@ -169,7 +175,10 @@ class Message
     public function addCC($email, $name = null)
     {
         if (!empty($name)) {
-            $email = "{$name} <{$email}>";
+            $email = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
+                $email
+            );
         }
 
         $this->cc[] = $email;
@@ -187,7 +196,10 @@ class Message
     public function addBCC($email, $name = null)
     {
         if (!empty($name)) {
-            $email = "{$name} <{$email}>";
+            $email = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
+                $email
+            );
         }
 
         $this->bcc[] = $email;
@@ -205,7 +217,10 @@ class Message
     public function setReplyTo($email, $name = null)
     {
         if (!empty($name)) {
-            $email = "{$name} <{$email}>";
+            $email = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
+                $email
+            );
         }
 
         $this->replyTo = $email;
