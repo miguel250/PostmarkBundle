@@ -37,7 +37,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->addAttachment(new File(__FILE__), 'attachment.php', 'text/plain'); // Attachment with custom filename and mimetype
         $response = json_decode($message->send(), true);
 
-        $this->assertEquals('Test Test <test1@test.com>', $response['To']);
+        $this->assertEquals('"Test Test" <test1@test.com>', $response['To']);
         $this->assertEquals(0, $response['ErrorCode']);
         $this->assertEquals('Test job accepted', $response['Message']);
     }
@@ -57,7 +57,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->addAttachment(new File(__FILE__), 'attachment.php'); // Attachment with custom filename
         $response = json_decode($message->send(), true);
 
-        $this->assertEquals('Test Test <test2@test.com>', $response['To']);
+        $this->assertEquals('"Test Test" <test2@test.com>', $response['To']);
         $this->assertEquals(0, $response['ErrorCode']);
         $this->assertEquals('Test job accepted', $response['Message']);
 
@@ -68,7 +68,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->addAttachment(new File(__FILE__), 'attachment.php'); // Attachment without custom filename or mimetype
         $response = json_decode($message->send(), true);
 
-        $this->assertEquals('Test Test <test3@test.com>', $response['To']);
+        $this->assertEquals('"Test Test" <test3@test.com>', $response['To']);
         $this->assertEquals(0, $response['ErrorCode']);
         $this->assertEquals('Test job accepted', $response['Message']);
 
@@ -78,7 +78,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->setHTMLMessage('<b>second email body</b>');
         $response = json_decode($message->send(), true);
 
-        $this->assertEquals('Test Test <test4@test.com>', $response['To']);
+        $this->assertEquals('"Test Test" <test4@test.com>', $response['To']);
         $this->assertEquals(0, $response['ErrorCode']);
         $this->assertEquals('Test job accepted', $response['Message']);
     }
@@ -115,15 +115,15 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($responses));
         $response = json_decode($responses[0], true);
 
-        $this->assertEquals('Test Test <test2@test.com>', $response[0]['To']);
+        $this->assertEquals('"Test Test" <test2@test.com>', $response[0]['To']);
         $this->assertEquals(0, $response[0]['ErrorCode']);
         $this->assertEquals('Test job accepted', $response[0]['Message']);
 
-        $this->assertEquals('Test Test <test3@test.com>', $response[1]['To']);
+        $this->assertEquals('"Test Test" <test3@test.com>', $response[1]['To']);
         $this->assertEquals(0, $response[1]['ErrorCode']);
         $this->assertEquals('Test job accepted', $response[1]['Message']);
 
-        $this->assertEquals('Test Test <test4@test.com>', $response[2]['To']);
+        $this->assertEquals('"Test Test" <test4@test.com>', $response[2]['To']);
         $this->assertEquals(0, $response[2]['ErrorCode']);
         $this->assertEquals('Test job accepted', $response[2]['Message']);
     }
